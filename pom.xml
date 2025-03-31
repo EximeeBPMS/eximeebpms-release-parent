@@ -197,17 +197,6 @@
     </pluginManagement>
   </build>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>${snapshot.repository.id}</id>
-      <url>${snapshot.repository}</url>
-    </snapshotRepository>
-    <repository>
-      <id>${release.repository.id}</id>
-      <url>${release.repository}</url>
-    </repository>
-  </distributionManagement>
-
   <profiles>
     <profile>
       <id>override-snapshot-repository</id>
@@ -373,4 +362,15 @@
     <url>https://github.com/eximeebpms/eximeebpms-release-parent/issues</url>
   </issueManagement>
 
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>${snapshot.repository.id}</id>
+      <url>${snapshot.repository}</url>
+    </snapshotRepository>
+    <repository>
+      <id>${release.repository.id}</id>
+      <url>${release.repository}</url>
+    </repository>
+  </distributionManagement>
 </project>
