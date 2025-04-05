@@ -70,7 +70,7 @@ jobs:
         run: mvn versions:set -DnewVersion=${{ github.event.inputs.release_version }} && mvn versions:commit
 
       - name: Deploy to GitHub Packages
-        run: mvn deploy -DskipTests
+        run: ./mvnw deploy -DskipTests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -85,7 +85,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update version to next snapshot
-        run: mvn versions:set -DnewVersion=${{ github.event.inputs.next_snapshot }} && mvn versions:commit
+        run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.next_snapshot }} && mvn versions:commit
 
       - name: Push updated pom.xml
         run: |
