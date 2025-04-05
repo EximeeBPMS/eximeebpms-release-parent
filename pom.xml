@@ -27,7 +27,7 @@
     <snapshot.repository.id>github</snapshot.repository.id>
     <snapshot.repository>https://maven.pkg.github.com/EximeeBPMS/eximeebpms-release-parent</snapshot.repository>
     <release.repository.id>github-release</release.repository.id>
-    <release.repository>https://maven.pkg.github.com/EximeeBPMS/eximeebpms-release-parent</release.repository>
+    <release.repository>https://maven.pkg.github.com/EximeeBPMS</release.repository>
     <nexus.sonatype.url>https://central.sonatype.com</nexus.sonatype.url>
 
     <gpg.useagent>true</gpg.useagent>
