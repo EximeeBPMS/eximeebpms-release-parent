@@ -25,6 +25,28 @@ jobs:
           cache: 'maven'
           server-id: github
           settings-path: ${{ github.workspace }}
+      - name: Create custom settings.xml 
+        run: |
+            mkdir -p ~/.m2
+            cat <<EOF > ~/.m2/settings.xml
+            <settings>
+              <servers>
+                <server>
+                  <id>github-eximeebpms</id>
+                  <username>${GITHUB_ACTOR}</username>
+                  <password>${GITHUB_TOKEN}</password>
+                </server>
+                <server>
+                  <id>github-release</id>
+                  <username>${GITHUB_ACTOR}</username>
+                  <password>${GITHUB_TOKEN}</password>
+                </server>
+              </servers>
+            </settings>
+            EOF
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
 
       # - name: Configure GitHub Packages
       #   run: |
@@ -41,6 +63,8 @@ jobs:
       #         </server>
       #       </servers>
       #     </settings>' > ~/.m2/settings.xml
+
+
 
       - name: Update version to release
         run: mvn versions:set -DnewVersion=${{ github.event.inputs.release_version }} && mvn versions:commit
