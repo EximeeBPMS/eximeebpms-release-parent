@@ -80,7 +80,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update version to next snapshot
-        run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.next_snapshot }} && mvn versions:commit
+        run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.next_snapshot }} && ./mvnw versions:commit
 
       - name: Push updated pom.xml
         run: |
