@@ -32,11 +32,6 @@ jobs:
             <settings>
               <servers>
                 <server>
-                  <id>github-eximeebpms</id>
-                  <username>${GITHUB_ACTOR}</username>
-                  <password>${GITHUB_TOKEN}</password>
-                </server>
-                <server>
                   <id>github-release</id>
                   <username>${GITHUB_ACTOR}</username>
                   <password>${GITHUB_TOKEN}</password>
