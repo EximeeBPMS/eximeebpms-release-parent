@@ -22,9 +22,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'maven'
-          server-id: github
-          settings-path: ${{ github.workspace }}
+#          cache: 'maven'
+#          server-id: github
+#          settings-path: ${{ github.workspace }}
       - name: Create custom settings.xml 
         run: |
             mkdir -p ~/.m2
@@ -67,7 +67,7 @@ jobs:
 
 
       - name: Update version to release
-        run: mvn versions:set -DnewVersion=${{ github.event.inputs.release_version }} && mvn versions:commit
+        run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.release_version }} && ./mvnw versions:commit
 
       - name: Deploy to GitHub Packages
         run: ./mvnw deploy -DskipTests
