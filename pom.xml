@@ -4,7 +4,7 @@
 
   <groupId>org.eximeebpms</groupId>
   <artifactId>eximeebpms-release-parent</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>EximeeBPMS - Release Parent Pom</name>
 
@@ -302,7 +302,7 @@
   <scm>
     <url>https://github.com/EximeeBPMS/eximeebpms-release-parent</url>
     <developerConnection>scm:git:https://github.com/EximeeBPMS/eximeebpms-release-parent.git</developerConnection>
-    <tag>eximeebpms-release-parent-0.0.4</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
