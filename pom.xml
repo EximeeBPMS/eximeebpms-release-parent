@@ -4,7 +4,7 @@
 
   <groupId>org.eximeebpms</groupId>
   <artifactId>eximeebpms-release-parent</artifactId>
-  <version>1.3.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>EximeeBPMS - Release Parent Pom</name>
 
@@ -18,19 +18,11 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- we use java 1.7 for our projects -->
-    <version.java>11</version.java>
+    <version.java>17</version.java>
     <version.ejb>3.1</version.ejb>
 
-    <skip.eximeebpms.release>false</skip.eximeebpms.release>
-    <skip.central.release>false</skip.central.release>
-
-    <snapshot.repository.id>github</snapshot.repository.id>
-    <snapshot.repository>https://maven.pkg.github.com/EximeeBPMS/eximeebpms-release-parent</snapshot.repository>
-    <release.repository.id>github-release</release.repository.id>
-    <release.repository>https://maven.pkg.github.com/EximeeBPMS/eximeebpms-release-parent</release.repository>
-    <nexus.sonatype.url>https://central.sonatype.com</nexus.sonatype.url>
-
     <gpg.useagent>true</gpg.useagent>
+    <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
 
     <plugin.version.clean>3.1.0</plugin.version.clean>
     <plugin.version.source>3.2.1</plugin.version.source>
@@ -48,9 +40,11 @@
     <plugin.version.ear>3.2.0</plugin.version.ear>
     <plugin.version.rar>2.4</plugin.version.rar>
     <plugin.version.gpg>3.0.1</plugin.version.gpg>
-    <plugin.version.release>2.5.3</plugin.version.release>
+    <plugin.version.release>3.1.1</plugin.version.release>
     <plugin.version.nexus-staging>1.6.13</plugin.version.nexus-staging>
     <plugin.version.central-publishing>0.7.0</plugin.version.central-publishing>
+
+    <project.scm.id>github</project.scm.id>
   </properties>
 
   <build>
@@ -151,25 +145,18 @@
           <artifactId>maven-release-plugin</artifactId>
           <version>${plugin.version.release}</version>
           <configuration>
-            <mavenExecutorId>forked-path</mavenExecutorId>
             <useReleaseProfile>false</useReleaseProfile>
-<!--            <arguments>${arguments} -Psonatype-oss-release</arguments>-->
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>${plugin.version.deploy}</version>
-          <configuration>
-            <skip>${skip.eximeebpms.release}</skip>
+            <releaseProfiles>release</releaseProfiles>
           </configuration>
         </plugin>
         <plugin>
           <groupId>org.sonatype.central</groupId>
           <artifactId>central-publishing-maven-plugin</artifactId>
           <version>${plugin.version.central-publishing}</version>
+          <extensions>true</extensions>
           <configuration>
             <waitMaxTime>3600</waitMaxTime>
+            <publishingServerId>central</publishingServerId>
           </configuration>
         </plugin>
         <plugin>
@@ -198,53 +185,9 @@
   </build>
 
   <profiles>
-    <profile>
-      <id>override-snapshot-repository</id>
-      <activation>
-        <property>
-          <name>env.NEXUS_SNAPSHOT_REPOSITORY</name>
-        </property>
-      </activation>
-      <properties>
-        <nexus.snapshot.repository>${env.NEXUS_SNAPSHOT_REPOSITORY}</nexus.snapshot.repository>
-      </properties>
-    </profile>
-    <profile>
-      <id>override-snapshot-repository-id</id>
-      <activation>
-        <property>
-          <name>env.NEXUS_SNAPSHOT_REPOSITORY_ID</name>
-        </property>
-      </activation>
-      <properties>
-        <nexus.snapshot.repository.id>${env.NEXUS_SNAPSHOT_REPOSITORY_ID}</nexus.snapshot.repository.id>
-      </properties>
-    </profile>
-    <profile>
-      <id>override-release-repository</id>
-      <activation>
-        <property>
-          <name>env.NEXUS_RELEASE_REPOSITORY</name>
-        </property>
-      </activation>
-      <properties>
-        <nexus.release.repository>${env.NEXUS_RELEASE_REPOSITORY}</nexus.release.repository>
-      </properties>
-    </profile>
-    <profile>
-      <id>override-release-repository-id</id>
-      <activation>
-        <property>
-          <name>env.NEXUS_RELEASE_REPOSITORY_ID</name>
-        </property>
-      </activation>
-      <properties>
-        <nexus.release.repository.id>${env.NEXUS_RELEASE_REPOSITORY_ID}</nexus.release.repository.id>
-      </properties>
-    </profile>
     <!-- activate this profile to release to maven central -->
     <profile>
-      <id>sonatype-oss-release</id>
+      <id>release</id>
       <build>
         <plugins>
           <plugin>
@@ -305,22 +248,9 @@
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
             <extensions>true</extensions>
-            <executions>
-              <execution>
-                <id>central-deploy</id>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>publish</goal>
-                </goals>
-                <configuration>
-                  <deploymentName>${project.groupId}:${project.artifactId}:${project.version}</deploymentName>
-                  <failOnBuildFailure>true</failOnBuildFailure>
-                  <publishingServerId>central</publishingServerId>
-                  <centralBaseUrl>${nexus.sonatype.url}</centralBaseUrl>
-                  <skipPublishing>${skip.central.release}</skipPublishing>
-                </configuration>
-              </execution>
-            </executions>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -352,25 +282,12 @@
 
   <scm>
     <url>https://github.com/EximeeBPMS/eximeebpms-release-parent</url>
-    <connection>scm:git:git@github.com:EximeeBPMS/eximeebpms-release-parent.git</connection>
-    <developerConnection>scm:git:git@github.com:EximeeBPMS/eximeebpms-release-parent.git</developerConnection>
-    <tag>eximeebpms-release-parent-1.0.0</tag>
+    <developerConnection>scm:git:https://github.com/EximeeBPMS/eximeebpms-release-parent.git</developerConnection>
+    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
     <system>GitHub Issues</system>
     <url>https://github.com/eximeebpms/eximeebpms-release-parent/issues</url>
   </issueManagement>
-
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>${snapshot.repository.id}</id>
-      <url>${snapshot.repository}</url>
-    </snapshotRepository>
-    <repository>
-      <id>${release.repository.id}</id>
-      <url>${release.repository}</url>
-    </repository>
-  </distributionManagement>
 </project>
