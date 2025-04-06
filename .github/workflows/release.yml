@@ -36,7 +36,7 @@ jobs:
                 </server>
                 <server>
                   <id>github</id>
-                  <username>${GITHUB_USER}</username>
+                  <username>${GITHUB_ACTOR}</username>
                   <password>${GITHUB_TOKEN}</password>
                 </server>
               </servers>
@@ -45,7 +45,6 @@ jobs:
         env:
           CPP_USERNAME: ${{ secrets.CPP_USERNAME }}
           CPP_PASSWORD: ${{ secrets.CPP_PASSWORD }}
-          GITHUB_USER: ${{ secrets.GITHUB_ACTOR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Import GPG key
