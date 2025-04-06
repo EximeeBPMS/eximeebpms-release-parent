@@ -301,8 +301,7 @@
 
   <scm>
     <url>https://github.com/EximeeBPMS/eximeebpms-release-parent</url>
-    <connection>scm:git:git@github.com:EximeeBPMS/eximeebpms-release-parent.git</connection>
-    <developerConnection>scm:git:git@github.com:EximeeBPMS/eximeebpms-release-parent.git</developerConnection>
+    <developerConnection>scm:git:https://github.com/EximeeBPMS/eximeebpms-release-parent.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
