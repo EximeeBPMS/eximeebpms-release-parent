@@ -4,7 +4,7 @@
 
   <groupId>io.github.dkubiak</groupId>
   <artifactId>eximeebpms-release-parent</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.1</version>
   <packaging>pom</packaging>
   <name>EximeeBPMS - Release Parent Pom</name>
 
@@ -304,7 +304,7 @@
   <scm>
     <url>https://github.com/EximeeBPMS/eximeebpms-release-parent</url>
     <developerConnection>scm:git:https://github.com/EximeeBPMS/eximeebpms-release-parent.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>eximeebpms-release-parent-0.0.1</tag>
   </scm>
 
   <issueManagement>
