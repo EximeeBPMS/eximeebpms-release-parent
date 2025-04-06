@@ -56,10 +56,11 @@ Prerequisite:
     </settings>
 
 To release your own project use the following command:
+
     ./mvnw release:prepare release:perform -B \
         -Prelease \
         -DtagNameFormat=v@{project.version} \
-        -DreleaseVersion=${{ github.event.inputs.release_version }} \
-        -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
+        -DreleaseVersion=1.0.0 \
+        -DdevelopmentVersion=1.1.0-SNAPSHOT \
     
 This will trigger the `release` profile inside the `eximeebpms-release-parent` pom automatically.
