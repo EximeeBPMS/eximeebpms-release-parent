@@ -195,14 +195,6 @@
   </build>
 
   <profiles>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-release-plugin</artifactId>
-      <version>3.1.1</version>
-      <configuration>
-          <releaseProfiles>release</releaseProfiles>
-      </configuration>
-    </plugin>
     <!-- activate this profile to release to maven central -->
     <profile>
       <id>release</id>
