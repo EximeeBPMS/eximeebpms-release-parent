@@ -46,6 +46,8 @@
     <plugin.version.release>2.5.3</plugin.version.release>
     <plugin.version.nexus-staging>1.6.13</plugin.version.nexus-staging>
     <plugin.version.central-publishing>0.7.0</plugin.version.central-publishing>
+
+    <project.scm.id>github</project.scm.id>
   </properties>
 
   <build>
@@ -296,9 +298,9 @@
 
   <scm>
     <url>https://github.com/EximeeBPMS/eximeebpms-release-parent</url>
-    <connection>scm:git:git@github.com:EximeeBPMS/eximeebpms-release-parent.git</connection>
-    <developerConnection>scm:git:git@github.com:EximeeBPMS/eximeebpms-release-parent.git</developerConnection>
-    <tag>eximeebpms-release-parent-1.0.0</tag>
+    <developerConnection>scm:git:https://github.com/EximeeBPMS/eximeebpms-release-parent.git</developerConnection>
+    <connection>scm:git:https://github.com/EximeeBPMS/eximeebpms-release-parent.git</connection>
+    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
