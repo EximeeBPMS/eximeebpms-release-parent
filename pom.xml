@@ -163,8 +163,10 @@
           <groupId>org.sonatype.central</groupId>
           <artifactId>central-publishing-maven-plugin</artifactId>
           <version>${plugin.version.central-publishing}</version>
+          <extensions>true</extensions>
           <configuration>
             <waitMaxTime>3600</waitMaxTime>
+            <publishingServerId>central</publishingServerId>
           </configuration>
         </plugin>
         <plugin>
@@ -309,12 +311,4 @@
     <system>GitHub Issues</system>
     <url>https://github.com/eximeebpms/eximeebpms-release-parent/issues</url>
   </issueManagement>
-
-
-  <distributionManagement>
-    <repository>
-      <id>${release.repository.id}</id>
-      <url>${release.repository}</url>
-    </repository>
-  </distributionManagement>
 </project>
