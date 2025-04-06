@@ -14,15 +14,17 @@ jobs:
   release:
     runs-on: self-hosted
     steps:
-      - name: Checkout repo
+      - name: Check out the code
         uses: actions/checkout@v4
-
-      - name: Set up JDK 17
+        with:
+          fetch-depth: 0
+          ref: ${{github.event.inputs.release_branch}}
+          
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
           java-version: '17'
-          cache: 'maven'
+          distribution: 'temurin'
 
       - name: Create custom settings.xml 
         run: |
@@ -58,22 +60,11 @@ jobs:
         run: |
           ./mvnw release:prepare release:perform -B \
             -Prelease \
-            -DignoreSnapshots=true -DremoteTagging=false \
+            -DremoteTagging=false \
             -DreleaseVersion=${{ github.event.inputs.release_version }} \
-            -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
-            -Darguments="-DskipTests"
+            -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT
         env:
-          GPG_TTY: $(tty)
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}            
-
-      # - name: Update version to release
-      #   run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.release_version }} && ./mvnw versions:commit
-
-      # - name: Deploy to GitHub Packages
-      #   run: ./mvnw deploy -DskipTests
-      #   env:
-      #     GPG_TTY: $(tty)
-      #     GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -82,16 +73,8 @@ jobs:
           name: Release v${{ github.event.inputs.release_version }}
           draft: false
           prerelease: false
+          description: |
+            Release generated on ${{ github.event.head_commit.timestamp }}
+            with commit message: ${{ github.event.head_commit.message }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Update version to next snapshot
-      #   run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.next_snapshot }} && ./mvnw versions:commit
-
-      # - name: Push updated pom.xml
-      #   run: |
-      #     git config --global user.name 'GitHub Actions'
-      #     git config --global user.email 'github-actions@github.com'
-      #     git add pom.xml
-      #     git commit -m "Bump version to ${{ github.event.inputs.next_snapshot }}"
-      #     git push
