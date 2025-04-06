@@ -21,9 +21,6 @@
     <version.java>11</version.java>
     <version.ejb>3.1</version.ejb>
 
-    <release.repository.id>central</release.repository.id>
-    <release.repository>https://repo.maven.apache.org/maven2/</release.repository>
-
     <gpg.useagent>true</gpg.useagent>
     <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
 
