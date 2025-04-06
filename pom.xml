@@ -301,6 +301,13 @@
     </developer>
   </developers>
 
+  <distributionManagement>
+  <repository>
+    <id>central</id>
+    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+  </repository>
+</distributionManagement>
+
   <scm>
     <url>https://github.com/EximeeBPMS/eximeebpms-release-parent</url>
     <developerConnection>scm:git:https://github.com/EximeeBPMS/eximeebpms-release-parent.git</developerConnection>
