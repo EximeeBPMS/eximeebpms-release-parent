@@ -37,12 +37,18 @@ jobs:
                   <username>${CPP_USERNAME}</username>
                   <password>${CPP_PASSWORD}</password>
                 </server>
+                <server>
+                  <id>github</id>
+                  <username>${secrets.GITHUB_ACTOR}</username>
+                  <password>${secrets.GITHUB_TOKEN}</password>
+                </server>
               </servers>
             </settings>
             EOF
         env:
           CPP_USERNAME: ${{ secrets.CPP_USERNAME }}
-          CPP_PASSWORD: ${{ secrets.CPP_PASSWORD }}     
+          CPP_PASSWORD: ${{ secrets.CPP_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Import GPG key
         run: |
@@ -60,7 +66,7 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
-          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}".insteadOf "git@github.com:"
+          # git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}".insteadOf "git@github.com:"
           
       - name: Release prepare & perform with Maven
         run: |
