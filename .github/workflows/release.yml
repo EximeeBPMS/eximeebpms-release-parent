@@ -44,6 +44,10 @@ jobs:
           CPP_USERNAME: ${{ secrets.CPP_USERNAME }}
           CPP_PASSWORD: ${{ secrets.CPP_PASSWORD }}     
 
+      - name: Set up guthubcredentials
+        run: |
+          echo "//github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.m2/settings.xml
+        
       - name: Import GPG key
         run: |
           echo "$GPG_PRIVATE_KEY" | base64 --decode > private.key
@@ -64,7 +68,8 @@ jobs:
             -DreleaseVersion=${{ github.event.inputs.release_version }} \
             -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT
         env:
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}            
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
