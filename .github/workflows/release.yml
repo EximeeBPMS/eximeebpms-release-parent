@@ -22,9 +22,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-#          cache: 'maven'
-#          server-id: github
-#          settings-path: ${{ github.workspace }}
+          cache: 'maven'
+
       - name: Create custom settings.xml 
         run: |
             mkdir -p ~/.m2
@@ -32,34 +31,23 @@ jobs:
             <settings>
               <servers>
                 <server>
-                  <id>github-release</id>
-                  <username>${GITHUB_ACTOR}</username>
-                  <password>${GITHUB_TOKEN}</password>
+                  <id>central</id>
+                  <username>${OSSRH_USERNAME}</username>
+                  <password>${OSSRH_PASSWORD}</password>
                 </server>
               </servers>
             </settings>
             EOF
         env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}     
 
-      # - name: Configure GitHub Packages
-      #   run: |
-      #     mkdir -p ~/.m2
-      #     echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
-      #     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-      #     xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 
-      #     http://maven.apache.org/xsd/settings-1.0.0.xsd">
-      #       <servers>
-      #         <server>
-      #           <id>github</id>
-      #           <username>${{ github.actor }}</username>
-      #           <password>${{ secrets.GITHUB_TOKEN }}</password>
-      #         </server>
-      #       </servers>
-      #     </settings>' > ~/.m2/settings.xml
-
-
+      - name: Import GPG key
+        run: |
+          echo "$GPG_PRIVATE_KEY" | base64 --decode > private.key
+          gpg --batch --import private.key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Update version to release
         run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.release_version }} && ./mvnw versions:commit
@@ -67,7 +55,8 @@ jobs:
       - name: Deploy to GitHub Packages
         run: ./mvnw deploy -DskipTests
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GPG_TTY: $(tty)
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
