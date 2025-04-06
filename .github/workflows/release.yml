@@ -16,10 +16,7 @@ jobs:
     steps:
       - name: Check out the code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{github.event.inputs.release_branch}}
-          
+        
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -66,13 +63,10 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
-          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}".insteadOf "git@github.com:"
-          
       - name: Release prepare & perform with Maven
         run: |
           ./mvnw release:prepare release:perform -B \
             -Prelease \
-            -DremoteTagging=false \
             -DreleaseVersion=${{ github.event.inputs.release_version }} \
             -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT
         env:
