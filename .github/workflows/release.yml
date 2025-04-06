@@ -65,7 +65,7 @@ jobs:
           git config --global user.email 'github-actions@github.com'
       - name: Release prepare & perform with Maven
         run: |
-          ./mvnw -X release:prepare release:perform -B \
+          ./mvnw -X release:prepare -B \
             -Prelease \
             -DreleaseVersion=${{ github.event.inputs.release_version }} \
             -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
@@ -73,6 +73,17 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Release perform with Maven
+        run: |
+          ./mvnw -X release:perform -B \
+            -Prelease \
+            -DreleaseVersion=${{ github.event.inputs.release_version }} \
+            -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
+            -Dusername=${{secrets.GITHUB_ACTOR}}
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
