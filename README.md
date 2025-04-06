@@ -20,14 +20,14 @@ Inherit the eximeebpms-release-parent pom inside your project like so
     
 If you have a multi-module build, just inherit in your parent pom.  
 
-Specify the <scm> section for your project eg.
-
-  <scm>
-    <url>https://github.com/EximeeBPMS/MY_PROJECT_URL</url>
-    <developerConnection>scm:git:https://github.com/EximeeBPMS/MY_PROJECT_URL.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
-
+Specify the ```<scm>``` section for your project eg.
+```
+<scm>
+  <url>https://github.com/EximeeBPMS/MY_PROJECT_URL</url>
+  <developerConnection>scm:git:https://github.com/EximeeBPMS/MY_PROJECT_URL.git</developerConnection>
+  <tag>HEAD</tag>
+</scm>
+```
 Release
 -------
 
@@ -48,7 +48,7 @@ Prerequisite:
             <password>${CPP_PASSWORD}</password>
           </server>
           <server>
-            <id>github</id>
+            <id>github</id> #Your credentail to github 
             <username>${GITHUB_ACTOR}</username>
             <password>${GITHUB_TOKEN}</password>
           </server>        
