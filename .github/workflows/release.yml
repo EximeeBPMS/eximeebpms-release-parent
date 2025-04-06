@@ -66,7 +66,7 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
-          # git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}".insteadOf "git@github.com:"
+          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}".insteadOf "git@github.com:"
           
       - name: Release prepare & perform with Maven
         run: |
