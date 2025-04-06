@@ -21,16 +21,11 @@
     <version.java>11</version.java>
     <version.ejb>3.1</version.ejb>
 
-    <skip.eximeebpms.release>false</skip.eximeebpms.release>
-    <skip.central.release>false</skip.central.release>
-
-    <snapshot.repository.id>github</snapshot.repository.id>
-    <snapshot.repository>https://maven.pkg.github.com/EximeeBPMS/eximeebpms-release-parent</snapshot.repository>
-    <release.repository.id>github-release</release.repository.id>
-    <release.repository>https://maven.pkg.github.com/EximeeBPMS/eximeebpms-release-parent</release.repository>
-    <nexus.sonatype.url>https://central.sonatype.com</nexus.sonatype.url>
+    <release.repository.id>central</release.repository.id>
+    <release.repository>https://repo.maven.apache.org/maven2/</release.repository>
 
     <gpg.useagent>true</gpg.useagent>
+    <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
 
     <plugin.version.clean>3.1.0</plugin.version.clean>
     <plugin.version.source>3.2.1</plugin.version.source>
@@ -150,11 +145,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
           <version>${plugin.version.release}</version>
-          <configuration>
-            <mavenExecutorId>forked-path</mavenExecutorId>
-            <useReleaseProfile>false</useReleaseProfile>
-<!--            <arguments>${arguments} -Psonatype-oss-release</arguments>-->
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -198,53 +188,9 @@
   </build>
 
   <profiles>
-    <profile>
-      <id>override-snapshot-repository</id>
-      <activation>
-        <property>
-          <name>env.NEXUS_SNAPSHOT_REPOSITORY</name>
-        </property>
-      </activation>
-      <properties>
-        <nexus.snapshot.repository>${env.NEXUS_SNAPSHOT_REPOSITORY}</nexus.snapshot.repository>
-      </properties>
-    </profile>
-    <profile>
-      <id>override-snapshot-repository-id</id>
-      <activation>
-        <property>
-          <name>env.NEXUS_SNAPSHOT_REPOSITORY_ID</name>
-        </property>
-      </activation>
-      <properties>
-        <nexus.snapshot.repository.id>${env.NEXUS_SNAPSHOT_REPOSITORY_ID}</nexus.snapshot.repository.id>
-      </properties>
-    </profile>
-    <profile>
-      <id>override-release-repository</id>
-      <activation>
-        <property>
-          <name>env.NEXUS_RELEASE_REPOSITORY</name>
-        </property>
-      </activation>
-      <properties>
-        <nexus.release.repository>${env.NEXUS_RELEASE_REPOSITORY}</nexus.release.repository>
-      </properties>
-    </profile>
-    <profile>
-      <id>override-release-repository-id</id>
-      <activation>
-        <property>
-          <name>env.NEXUS_RELEASE_REPOSITORY_ID</name>
-        </property>
-      </activation>
-      <properties>
-        <nexus.release.repository.id>${env.NEXUS_RELEASE_REPOSITORY_ID}</nexus.release.repository.id>
-      </properties>
-    </profile>
     <!-- activate this profile to release to maven central -->
     <profile>
-      <id>sonatype-oss-release</id>
+      <id>release</id>
       <build>
         <plugins>
           <plugin>
@@ -316,8 +262,6 @@
                   <deploymentName>${project.groupId}:${project.artifactId}:${project.version}</deploymentName>
                   <failOnBuildFailure>true</failOnBuildFailure>
                   <publishingServerId>central</publishingServerId>
-                  <centralBaseUrl>${nexus.sonatype.url}</centralBaseUrl>
-                  <skipPublishing>${skip.central.release}</skipPublishing>
                 </configuration>
               </execution>
             </executions>
@@ -364,10 +308,6 @@
 
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>${snapshot.repository.id}</id>
-      <url>${snapshot.repository}</url>
-    </snapshotRepository>
     <repository>
       <id>${release.repository.id}</id>
       <url>${release.repository}</url>
