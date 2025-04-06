@@ -67,34 +67,20 @@ jobs:
         run: |
           ./mvnw release:prepare release:perform -B \
             -Prelease \
+            -DtagNameFormat=v@{project.version}
             -DreleaseVersion=${{ github.event.inputs.release_version }} \
             -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: SHOW settings.xml 
-      #   run: |
-      #       cat ~/.m2/settings.xml     
-          
-      # - name: Release perform with Maven
-      #   run: |
-      #     ./mvnw - -B \
-      #       -Prelease \
-      #       -DreleaseVersion=${{ github.event.inputs.release_version }} \
-      #       -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
-      #   env:
-      #     GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ github.event.inputs.release_version }}
           name: Release v${{ github.event.inputs.release_version }}
           draft: false
           prerelease: false
-          description: |
+          body: |
             Release generated on ${{ github.event.head_commit.timestamp }}
             with commit message: ${{ github.event.head_commit.message }}
         env:
