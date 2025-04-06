@@ -4,7 +4,7 @@
 
   <groupId>org.eximeebpms</groupId>
   <artifactId>eximeebpms-release-parent</artifactId>
-  <version>1.3.0</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>EximeeBPMS - Release Parent Pom</name>
 
