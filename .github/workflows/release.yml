@@ -73,9 +73,9 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: SHOW settings.xml 
-        run: |
-            cat ~/.m2/settings.xml     
+      # - name: SHOW settings.xml 
+      #   run: |
+      #       cat ~/.m2/settings.xml     
           
       # - name: Release perform with Maven
       #   run: |
