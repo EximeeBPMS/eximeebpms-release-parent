@@ -6,7 +6,7 @@ on:
       release_version:
         description: 'Version to release'
         required: true
-      next_snapshot:
+      development_version:
         description: 'Next snapshot version'
         required: true
 
@@ -32,15 +32,15 @@ jobs:
               <servers>
                 <server>
                   <id>central</id>
-                  <username>${OSSRH_USERNAME}</username>
-                  <password>${OSSRH_PASSWORD}</password>
+                  <username>${CPP_USERNAME}</username>
+                  <password>${CPP_PASSWORD}</password>
                 </server>
               </servers>
             </settings>
             EOF
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}     
+          CPP_USERNAME: ${{ secrets.CPP_USERNAME }}
+          CPP_PASSWORD: ${{ secrets.CPP_PASSWORD }}     
 
       - name: Import GPG key
         run: |
@@ -49,14 +49,31 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
-      - name: Update version to release
-        run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.release_version }} && ./mvnw versions:commit
-
-      - name: Deploy to GitHub Packages
-        run: ./mvnw deploy -DskipTests
+      - name: Configure Git user
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'github-actions@github.com'
+          
+      - name: Release prepare & perform with Maven
+        run: |
+          ./mvnw release:prepare release:perform -B \
+            -Prelease \
+            -DignoreSnapshots=true -DremoteTagging=false \
+            -DreleaseVersion=${{ github.event.inputs.release_version }} \
+            -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
+            -Darguments="-DskipTests"
         env:
           GPG_TTY: $(tty)
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}            
+
+      # - name: Update version to release
+      #   run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.release_version }} && ./mvnw versions:commit
+
+      # - name: Deploy to GitHub Packages
+      #   run: ./mvnw deploy -DskipTests
+      #   env:
+      #     GPG_TTY: $(tty)
+      #     GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -68,13 +85,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update version to next snapshot
-        run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.next_snapshot }} && ./mvnw versions:commit
+      # - name: Update version to next snapshot
+      #   run: ./mvnw versions:set -DnewVersion=${{ github.event.inputs.next_snapshot }} && ./mvnw versions:commit
 
-      - name: Push updated pom.xml
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'github-actions@github.com'
-          git add pom.xml
-          git commit -m "Bump version to ${{ github.event.inputs.next_snapshot }}"
-          git push
+      # - name: Push updated pom.xml
+      #   run: |
+      #     git config --global user.name 'GitHub Actions'
+      #     git config --global user.email 'github-actions@github.com'
+      #     git add pom.xml
+      #     git commit -m "Bump version to ${{ github.event.inputs.next_snapshot }}"
+      #     git push
