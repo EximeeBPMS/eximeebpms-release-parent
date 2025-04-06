@@ -36,8 +36,8 @@ jobs:
                 </server>
                 <server>
                   <id>github</id>
-                  <username>${{secrets.GITHUB_ACTOR}}</username>
-                  <password>${{secrets.GITHUB_TOKEN}}</password>
+                  <username>${GITHUB_USER}</username>
+                  <password>${GITHUB_TOKEN}</password>
                 </server>
               </servers>
             </settings>
@@ -45,7 +45,8 @@ jobs:
         env:
           CPP_USERNAME: ${{ secrets.CPP_USERNAME }}
           CPP_PASSWORD: ${{ secrets.CPP_PASSWORD }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_USER: ${{secrets.GITHUB_ACTOR}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         
       - name: Import GPG key
         run: |
@@ -63,16 +64,19 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
-      - name: Release prepare & perform with Maven
+      - name: Release prepare with Maven
         run: |
           ./mvnw -X release:prepare -B \
             -Prelease \
             -DreleaseVersion=${{ github.event.inputs.release_version }} \
             -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
-            -Dusername=${{secrets.GITHUB_ACTOR}}
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: SHOW settings.xml 
+        run: |
+            cat ~/.m2/settings.xml     
           
       - name: Release perform with Maven
         run: |
@@ -80,7 +84,6 @@ jobs:
             -Prelease \
             -DreleaseVersion=${{ github.event.inputs.release_version }} \
             -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
-            -Dusername=${{secrets.GITHUB_ACTOR}}
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
