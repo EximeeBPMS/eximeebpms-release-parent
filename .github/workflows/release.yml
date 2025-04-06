@@ -68,7 +68,8 @@ jobs:
           ./mvnw -X release:prepare release:perform -B \
             -Prelease \
             -DreleaseVersion=${{ github.event.inputs.release_version }} \
-            -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT
+            -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
+            -Dusername=${{secrets.GITHUB_ACTOR}}
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
