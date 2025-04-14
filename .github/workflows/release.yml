@@ -14,15 +14,6 @@ jobs:
   release:
     runs-on: self-hosted
     steps:
-      - name: Check out the code
-        uses: actions/checkout@v4
-        
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
       - name: Determine user and set secret
         run: |
           case "${{ github.actor }}" in
@@ -33,7 +24,18 @@ jobs:
               echo "No matching user found. Exiting."
               exit 1
               ;;
-          esac    
+          esac
+      
+      - name: Check out the code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets[env.GITHUB_PAT_USER] }}
+        
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
       - name: Create custom settings.xml 
         run: |
