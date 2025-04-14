@@ -16,16 +16,8 @@ jobs:
     steps:
       - name: Determine user and set secret
         run: |
-          case "${{ github.actor }}" in
-            dkubiak)
-              echo "GITHUB_PAT_USER=SECRET_PAT_DKUBIAK" >> $GITHUB_ENV
-              ;;
-            *)
-              echo "No matching user found. Exiting."
-              exit 1
-              ;;
-          esac
-      
+          echo "GITHUB_PAT_USER=SECRET_PAT_${{ github.actor }}" >> $GITHUB_ENV
+          
       - name: Check out the code
         uses: actions/checkout@v4
         with:
