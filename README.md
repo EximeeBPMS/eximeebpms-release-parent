@@ -9,7 +9,7 @@ It will deploy the artifacts at the end of the build to keep the window of failu
 
 Usage
 -----
-
+TEST
 Inherit the eximeebpms-release-parent pom inside your project like so  
   
     <parent>
