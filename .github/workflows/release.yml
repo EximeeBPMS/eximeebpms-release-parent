@@ -80,13 +80,12 @@ jobs:
         run: |
           ./mvnw -X release:prepare release:perform -B \
             -Prelease \
-            -Dusername=${{ github.actor }} \
-            -Dpassword=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 \
             -DtagNameFormat=v@{project.version} \
             -DreleaseVersion=${{ github.event.inputs.release_version }} \
             -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GITHUB_TOKEN: ${{ secrets[env.GITHUB_PAT_USER] }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
