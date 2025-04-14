@@ -3,7 +3,6 @@
 eximeebpms-release-parent
 ======================
 
-TEST
 
 Pom which can be inherited for eximeebpms releases defining some common release properties.
 It allows to deploy to two repositories simultaneously. One is a Nexus OSS server, the other one a Nexus Enterprise server.
