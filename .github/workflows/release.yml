@@ -36,11 +36,6 @@ jobs:
             <settings>
               <servers>
                 <server>
-                  <id>central</id>
-                  <username>${CPP_USERNAME}</username>
-                  <password>${CPP_PASSWORD}</password>
-                </server>
-                <server>
                   <id>github</id>
                   <username>${GITHUB_ACTOR}</username>
                   <password>${GITHUB_TOKEN}</password>
@@ -70,16 +65,6 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
-      - name: Release prepare & perform with Maven
-        run: |
-          ./mvnw release:prepare release:perform -B \
-            -Prelease \
-            -DtagNameFormat=v@{project.version} \
-            -DreleaseVersion=${{ github.event.inputs.release_version }} \
-            -DdevelopmentVersion=${{ github.event.inputs.development_version }}-SNAPSHOT \
-        env:
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          GITHUB_TOKEN: ${{ secrets[env.GITHUB_PAT_USER] }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
