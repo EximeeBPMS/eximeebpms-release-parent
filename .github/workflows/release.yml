@@ -36,11 +36,6 @@ jobs:
             <settings>
               <servers>
                 <server>
-                  <id>central</id>
-                  <username>${CPP_USERNAME}</username>
-                  <password>${CPP_PASSWORD}</password>
-                </server>
-                <server>
                   <id>github</id>
                   <username>${GITHUB_ACTOR}</username>
                   <password>${GITHUB_TOKEN}</password>
