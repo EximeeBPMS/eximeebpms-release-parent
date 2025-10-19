@@ -35,11 +35,6 @@ jobs:
             cat <<EOF > ~/.m2/settings.xml
             <settings>
               <servers>
-#                <server>
-#                  <id>central</id>
-#                  <username>${CPP_USERNAME}</username>
-#                  <password>${CPP_PASSWORD}</password>
-#                </server>
                 <server>
                   <id>github</id>
                   <username>${GITHUB_ACTOR}</username>
