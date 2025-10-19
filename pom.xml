@@ -4,7 +4,7 @@
 
   <groupId>org.eximeebpms</groupId>
   <artifactId>eximeebpms-release-parent</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>EximeeBPMS - Release Parent Pom</name>
 
@@ -290,4 +290,17 @@
     <system>GitHub Issues</system>
     <url>https://github.com/eximeebpms/eximeebpms-release-parent/issues</url>
   </issueManagement>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/EximeeBPMS/eximeebpms-release-parent</url>
+    </repository>
+    <snapshotRepository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/EximeeBPMS/eximeebpms-release-parent</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
