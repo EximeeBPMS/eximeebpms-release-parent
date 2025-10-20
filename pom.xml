@@ -25,7 +25,7 @@
     <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
 
     <plugin.version.clean>3.4.1</plugin.version.clean>
-    <plugin.version.source>3.2.1</plugin.version.source>
+    <plugin.version.source>3.3.1</plugin.version.source>
     <plugin.version.compiler>3.14.0</plugin.version.compiler>
     <!-- for compatibility reasons pinned to 2.6, since 3.0.0 introduced a change incompatible to this build script -->
     <plugin.version.jar>2.6</plugin.version.jar>
