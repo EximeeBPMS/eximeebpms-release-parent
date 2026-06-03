@@ -17,8 +17,7 @@
     <!-- Avoid the message "[WARNING] Using platform encoding (UTF-8 actually) ... also for the failsafe plugin -->
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <!-- we use java 1.7 for our projects -->
-    <version.java>17</version.java>
+    <version.java>21</version.java>
     <version.ejb>3.1</version.ejb>
 
     <gpg.useagent>true</gpg.useagent>
