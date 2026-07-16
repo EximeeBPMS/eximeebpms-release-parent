@@ -18,6 +18,10 @@ deploy:
         # profile, verify phase) before staging - JReleaser doesn't need to sign anything
         # itself, only upload what's already there.
         sign: false
+        # Upload only, don't auto-publish (default stage is FULL = upload + publish).
+        # The deployment sits in Central Publisher Portal awaiting manual confirmation:
+        # https://central.sonatype.com/publishing/deployments
+        stage: UPLOAD
         url: https://central.sonatype.com/api/v1/publisher
         stagingRepositories:
           - target/staging-deploy
