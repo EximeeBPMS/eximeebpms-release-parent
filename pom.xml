@@ -40,8 +40,6 @@
     <plugin.version.rar>3.0.0</plugin.version.rar>
     <plugin.version.gpg>3.2.7</plugin.version.gpg>
     <plugin.version.release>3.1.1</plugin.version.release>
-    <plugin.version.nexus-staging>1.6.13</plugin.version.nexus-staging>
-    <plugin.version.central-publishing>0.8.0</plugin.version.central-publishing>
 
     <project.scm.id>github</project.scm.id>
   </properties>
@@ -149,13 +147,19 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.sonatype.central</groupId>
-          <artifactId>central-publishing-maven-plugin</artifactId>
-          <version>${plugin.version.central-publishing}</version>
-          <extensions>true</extensions>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${plugin.version.deploy}</version>
           <configuration>
-            <waitMaxTime>3600</waitMaxTime>
-            <publishingServerId>central</publishingServerId>
+            <!-- A release build (-Prelease) never talks to Sonatype Central directly: it always
+              stages locally by default. This avoids a single-shot, unchunked upload of the whole
+              reactor's release bundle (previously done via central-publishing-maven-plugin bound
+              as a build extension, which ignored altDeploymentRepository and reliably failed with
+              "Broken pipe" once the bundle grew past a few dozen modules - see BPMS-385).
+              A separate, dedicated tool (e.g. JReleaser) reads this local repository afterwards
+              and performs the actual Central Publisher Portal upload, with real retry support.
+              Consumers needing a different location can still override -DaltDeploymentRepository. -->
+            <altDeploymentRepository>local::file:${maven.multiModuleProjectDirectory}/target/staging-deploy</altDeploymentRepository>
           </configuration>
         </plugin>
         <plugin>
@@ -242,14 +246,6 @@
                 </goals>
               </execution>
             </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <extensions>true</extensions>
-            <configuration>
-              <publishingServerId>central</publishingServerId>
-            </configuration>
           </plugin>
         </plugins>
       </build>

@@ -70,7 +70,7 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
-      - name: Release prepare & perform with Maven
+      - name: Release prepare & perform with Maven (stage locally, no network)
         run: |
           ./mvnw release:prepare release:perform -B \
             -Prelease \
@@ -80,6 +80,17 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GITHUB_TOKEN: ${{ secrets[env.GITHUB_PAT_USER] }}
+
+      - name: Publish staged artifact to Maven Central (JReleaser)
+        uses: jreleaser/release-action@v2
+        with:
+          working-directory: target/checkout
+          arguments: deploy
+        env:
+          JRELEASER_PROJECT_VERSION: ${{ github.event.inputs.release_version }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.CPP_USERNAME }}
+          JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.CPP_PASSWORD }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
