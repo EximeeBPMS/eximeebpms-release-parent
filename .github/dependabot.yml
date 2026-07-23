@@ -1,7 +1,27 @@
 version: 2
 updates:
-- package-ecosystem: maven
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    # Delay patch-level PRs by 5 days after release so a compromised/broken
+    # patch has time to get pulled or flagged upstream before we auto-merge
+    # it. Does not apply to Dependabot security updates (CVE alerts always
+    # bypass cooldown) or to minor/major bumps, which already require manual
+    # review regardless of age.
+    cooldown:
+      semver-patch-days: 5
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 2
+    groups:
+      github-actions:
+        patterns:
+          - "actions/*"
+      third-party-actions:
+        patterns:
+          - "*"
