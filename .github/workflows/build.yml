@@ -1,0 +1,27 @@
+name: Build
+
+# This repo is a pom-packaging Maven parent with no source code - there's
+# nothing to compile or test, but a PR (e.g. a Dependabot plugin-version
+# bump) can still declare a broken/non-resolvable plugin version, which
+# previously only surfaced during an actual release attempt. `validate`
+# resolves the full plugin/dependency chain without needing to build
+# anything, catching that class of break before merge.
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Validate POM
+        run: ./mvnw -B validate
