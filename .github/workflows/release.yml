@@ -12,7 +12,7 @@ on:
 
 jobs:
   release:
-    runs-on: self-hosted
+    runs-on: github-actions-runner-new
     steps:
       - name: Determine user and set secret
         run: |
