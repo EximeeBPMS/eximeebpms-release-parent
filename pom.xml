@@ -29,7 +29,7 @@
     <plugin.version.jar>3.5.0</plugin.version.jar>
     <plugin.version.javadoc>3.12.0</plugin.version.javadoc>
     <!-- bndlib 7.0.0 (bundled in 6.0.2) supports up to Java 21 class files; keeping version.java=21 ensures compatibility -->
-    <plugin.version.maven-bundle>6.0.2</plugin.version.maven-bundle>
+    <plugin.version.maven-bundle>6.1.0</plugin.version.maven-bundle>
 
 
     <plugin.version.deploy>3.1.4</plugin.version.deploy>
