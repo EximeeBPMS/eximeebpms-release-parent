@@ -4,7 +4,7 @@
 
   <groupId>org.eximeebpms</groupId>
   <artifactId>eximeebpms-release-parent</artifactId>
-  <version>1.4.0-SNAPSHOT-SNAPSHOT</version>
+  <version>1.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>EximeeBPMS - Release Parent Pom</name>
 
@@ -23,22 +23,25 @@
     <gpg.useagent>true</gpg.useagent>
     <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
 
-    <plugin.version.clean>3.4.1</plugin.version.clean>
-    <plugin.version.source>3.2.1</plugin.version.source>
-    <plugin.version.compiler>3.14.0</plugin.version.compiler>
-    <!-- for compatibility reasons pinned to 2.6, since 3.0.0 introduced a change incompatible to this build script -->
-    <plugin.version.jar>2.6</plugin.version.jar>
-    <plugin.version.javadoc>3.11.2</plugin.version.javadoc>
-    <plugin.version.maven-bundle>5.1.9</plugin.version.maven-bundle>
+    <plugin.version.clean>3.5.0</plugin.version.clean>
+    <plugin.version.source>3.4.0</plugin.version.source>
+    <plugin.version.compiler>3.15.0</plugin.version.compiler>
+    <plugin.version.jar>3.5.0</plugin.version.jar>
+    <plugin.version.javadoc>3.12.0</plugin.version.javadoc>
+    <!-- bndlib 7.0.0 (bundled in 6.0.2) supports up to Java 21 class files; keeping version.java=21 ensures compatibility -->
+    <plugin.version.maven-bundle>6.0.2</plugin.version.maven-bundle>
+
 
     <plugin.version.deploy>3.1.4</plugin.version.deploy>
-    <plugin.version.assembly>3.7.1</plugin.version.assembly>
-    <plugin.version.ejb>3.2.1</plugin.version.ejb>
-    <plugin.version.war>3.3.2</plugin.version.war>
-    <plugin.version.ear>3.2.0</plugin.version.ear>
-    <plugin.version.rar>3.0.0</plugin.version.rar>
-    <plugin.version.gpg>3.2.7</plugin.version.gpg>
-    <plugin.version.release>3.1.1</plugin.version.release>
+    <plugin.version.assembly>3.8.0</plugin.version.assembly>
+    <plugin.version.ejb>3.3.0</plugin.version.ejb>
+    <plugin.version.war>3.5.1</plugin.version.war>
+    <plugin.version.ear>3.4.0</plugin.version.ear>
+    <plugin.version.rar>3.1.0</plugin.version.rar>
+    <plugin.version.gpg>3.2.8</plugin.version.gpg>
+    <plugin.version.release>3.3.1</plugin.version.release>
+    <plugin.version.nexus-staging>1.7.0</plugin.version.nexus-staging>
+    <plugin.version.central-publishing>0.11.0</plugin.version.central-publishing>
 
     <project.scm.id>github</project.scm.id>
   </properties>
@@ -66,7 +69,6 @@
           <artifactId>maven-jar-plugin</artifactId>
           <version>${plugin.version.jar}</version>
           <configuration>
-            <useDefaultManifestFile>true</useDefaultManifestFile>
             <archive>
               <!-- explicitly specify manifestFile because otherwise it overrides the generated one from bundle-plugin -->
               <manifest>
